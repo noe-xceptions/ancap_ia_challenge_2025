@@ -19,32 +19,16 @@ from langchain_google_firestore import FirestoreVectorStore
 settings = get_settings()  
 
 PROJECT_ID = settings.GCP_PROJECT_ID
-LOCATION = "southamerica-east1"
-GCS_BUCKET_NAME = settings.GCS_BUCKET_NAME 
 
-EMBEDDING_MODEL_NAME = "gemini-embedding-001"
-EMBEDDING_TASK_TYPE = "RETRIEVAL_DOCUMENT" 
-EMBEDDING_DIMENSIONS = 768 
-SIMILARITY_THRESHOLD = settings.SIMILARITY_THRESHOLD
-
-
-INDEX_DISPLAY_NAME = settings.INDEX_DISPLAY_NAME
-ENDPOINT_DISPLAY_NAME = settings.ENDPOINT_DISPLAY_NAME
-DEPLOYED_INDEX_ID = settings.DEPLOYED_INDEX_ID
- 
-FIRESTORE_DATABASE_NAME = settings.FIRESTORE_DATABASE_NAME
-FIRESTORE_COLLECTION_NAME = settings.FIRESTORE_COLLECTION_NAME
 TTL_DAYS = 1
 
 
 
-# Initialize your embedding model
 embedding = VertexAIEmbeddings(
     model_name="text-multilingual-embedding-002",
     project=PROJECT_ID
 )
 
-# Create/connect your Firestore vector store
 vector_store = FirestoreVectorStore(
     collection="query_cache",
     embedding_service=embedding
@@ -98,7 +82,7 @@ def retrieve_query(query_text: str, num_results: int = 1, threshold: float = 0.4
         query_vector = embedding.embed_query(query_text)  
 
 
-        db = firestore.Client(project="ancap-equipo2")
+        db = firestore.Client(project=PROJECT_ID)
         collection = db.collection("query_cache")
 
         docs = list(db.collection("query_cache").find_nearest(
