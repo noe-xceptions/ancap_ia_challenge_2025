@@ -19,6 +19,8 @@ class Settings:
         self.api_key = os.environ['GEMINI_API_KEY']
         self.mcp_server_uri = os.environ.get('MCP_SERVER_URI')
         self.pocketbase_url = os.environ.get('POCKETBASE_URL')
+        self.bigQuery_project = os.environ.get('BIGQUERY_PROJECT')
+        self.dataset_name= os.environ.get('DATASET_NAME')
         self.local = os.environ.get('LOCAL', 'false').lower() == 'true'
         self.schema = None
 

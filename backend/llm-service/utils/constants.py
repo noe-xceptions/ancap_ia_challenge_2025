@@ -1,5 +1,10 @@
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-schema_constant = """
+from settings import settings
+
+settings = settings()
+bigQuery_project = settings.bigQuery_project
+dataset_name = settings.dataset_name
+schema_constant = f"""
 
 -- Tabla: DOCCRG (Documento de Carga - Cabezal)
 -- Información general del documento de carga/entrega de productos
@@ -171,8 +176,8 @@ CREATE TABLE FACLINPR (
 
 Recuerda que NO puedes calcular valores usando VARCHAR como número.
 Por favor, utiliza las tablas y claves que están explícitamente definidas arriba.
-Todas las tablas estan en la base de datos "datosancap.entregas_facturacion", por lo que debes usar el nombre de la tabla y no el nombre del esquema.
-Ejemplo: no uses "FACCAB" y usa "datosancap.entregas_facturacion.FACCAB" para referirte a la tabla de facturas.
+Todas las tablas estan en la base de datos "{bigQuery_project}.{dataset_name}", por lo que debes usar el nombre de la tabla y no el nombre del esquema.
+Ejemplo: no uses "FACCAB" y usa "{bigQuery_project}.{dataset_name}.FACCAB" para referirte a la tabla de facturas.
 
 """
 
